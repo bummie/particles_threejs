@@ -10,12 +10,28 @@ function Renderer()
     self.material = new THREE.MeshBasicMaterial( { color: 0x0f0fff } );
     self.cube = new THREE.Mesh( self.geometry, self.material ); 
 
+    self.snow = new ParticleSystem();
+
     self.init = function()
     {
         self.scene.add( self.cube );
         self.camera.position.z = 5;
 
-        requestAnimationFrame(self.render);
+        self.snow.init();
+        self.scene.add( self.snow.points );
+
+        requestAnimationFrame(self.update);
+    }
+
+    self.update = function()
+    {
+        self.cube.rotation.x += 0.01;
+        self.cube.rotation.y += 0.01;
+        
+        self.snow.update();
+
+        self.render();
+        requestAnimationFrame(self.update);
     }
 
     /**
@@ -23,11 +39,7 @@ function Renderer()
      */
     self.render = function()
     {
-        self.cube.rotation.x += 0.01;
-        self.cube.rotation.y += 0.01;
-        
         self.renderer.render(self.scene, self.camera);
-        requestAnimationFrame(self.render);
     }
    
 }

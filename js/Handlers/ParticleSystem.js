@@ -2,33 +2,71 @@ function ParticleSystem()
 {
     let self = this;
 
-    self.maxParticles = 100;
+    self.maxParticles = 1000;
     self.availableParticles = [];
     self.particles = [];
-    self.spawnRateMS = 100;
-    self.spawnAmount = 10;
-    self.particleMother = new Particle();
+    self.spawnRateMS = 1000;
+	self.spawnAmount = 100;
+	self.lastTimeSpawned = Date.now();
+
+    self.particleType = "flame";
 	self.points = null;  
 
     self.init = function()
     {
 		self.points = new THREE.Points( self.initBuffer(), self.initMaterial() );
-		
-		for(let i = 0; i < 1000; i++)
-		{
-			self.particles.push(new Particle());
-		}
     }
 
     self.update = function(deltaTime)
     {
+		self.spawnParticles();
+		self.updateGeometry(deltaTime);
+	}
+
+	self.spawnParticles = function()
+	{
+		if(self.particles.length >= self.maxParticles) { return; }
+
+		let now = Date.now();
+		if((now - self.lastTimeSpawned) < self.spawnRateMS ) { return; }
+
+		console.log(self.particles.length);
+		for(let i = 0; i < self.spawnAmount; i++)
+		{
+			self.spawnParticle();
+		}
+
+		self.lastTimeSpawned = now;
+	}
+	
+	/**
+	 * Spawns a particle, either one existing being resued or creates a new one
+	 */
+	self.spawnParticle = function()
+	{
+		if(self.availableParticles.length <= 0) 
+		{
+			let particle = new FlameParticle();
+			self.particles.push(particle); 
+			
+			return;
+		}
+
+		self.particles.push(self.availableParticles.pop().copyData(self.particleMother));
+	}
+
+	/**
+	 * Updates the vertices in the geometry
+	 */
+	self.updateGeometry = function(deltaTime)
+	{
 		self.points.geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( self.particlePositionsToVerts(deltaTime), 3 ) );
 		self.points.geometry.attributes.position.needsUpdate = true;
 
 		self.points.geometry.addAttribute( 'color', new THREE.Float32BufferAttribute( self.particleColorsToColor(), 3 ) );
 		self.points.geometry.attributes.color.needsUpdate = true;
 	}
-	
+
 	/**
 	 * Inits the geometry buffer
 	 */
@@ -68,7 +106,7 @@ function ParticleSystem()
 		return verts;
 	}
 
-		/**
+	/**
 	 * Turns the particles positins into an array of only the positions to be loaded into the 
 	 */
 	self.particleColorsToColor = function()

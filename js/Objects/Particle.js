@@ -2,16 +2,18 @@ function Particle()
 {
     let self = this;
 
-    self.position = { x: Math.random() * (10 - 12) + 1, y: Math.random() * (20 - 1) + -2, z: 0 };
-    self.veloctity = { x: 0, y: Math.random() + 0.05, z: 0 };
+    self.position = { x: 0, y: 0, z: 0 };
+    self.velocity = { x: 0, y: 0, z: 0 };
     self.acceleration = { x: 0, y: 0, z: 0 };
+    self.gravity = { x: 0, y: -9.81, z: 0 };
+    self.useGravity = false;
+
     self.lifeTime = 3000;
     self.lifeLeft = self.lifeTime;
-    self.startColor = { r: 0.9, g: 0.0, b: 0.0 };
-    self.endColor = { r: 1, g: 1, b: 0 };
-	self.color = { r: Math.random(), g: Math.random(), b: Math.random() };
-    self.useGravity = false;
-    self.gravity = { x: 0, y: -9.81, z: 0 };
+
+    self.startColor = { r: 0.0, g: 0.0, b: 0.0 };
+    self.endColor = { r: 1.0, g: 1.0, b: 1.0 };
+    self.color = { r: 0, g: 0, b: 0 };
 
     /**
      * Updates the properties for the particle
@@ -21,22 +23,56 @@ function Particle()
         self.lifeLeft -= deltaTime;
         if(self.isDead()){ return; }
 
-        self.position.x += self.veloctity.x;
-        self.position.y += self.veloctity.y;
-        self.position.z += self.veloctity.z;
-
-        self.color.r = self.lerp(self.startColor.r, self.endColor.r, self.lifeAsFraction());
-        self.color.g = self.lerp(self.startColor.g, self.endColor.g, self.lifeAsFraction());
-        self.color.b = self.lerp(self.startColor.b, self.endColor.b, self.lifeAsFraction());
+        self.updatePosition();
+        self.updateColor();
     }
 
     /**
+     * Copies data from one particle to another
+     */
+    self.copyData = function(particle)
+    {
+        self.position = particle.position;
+        self.velocity = particle.velocity;
+        self.acceleration = particle.acceleration;
+        self.gravity = particle.gravity;
+        self.useGravity = particle.useGravity; 
+      
+        self.lifeTime = particle.lifeTime; 
+        self.lifeLeft = particle.lifeLeft;
+ 
+        self.startColor = particle.startColor;
+        self.endColor = particle.endColor;
+        self.color = particle.color;
+    }
+
+    /** 
      * Returns true if particle has ran out of life juice
      */
     self.isDead = function()
     {
         if(self.lifeLeft < 0) { return true; }
         return false;
+    }
+
+    /**
+     * Updates the position for the particle based on life
+     */
+    self.updatePosition = function()
+    {
+        self.position.x += self.velocity.x;
+        self.position.y += self.velocity.y;
+        self.position.z += self.velocity.z;
+    }
+
+    /**
+     * Update color based on where the particle is in this current life
+     */
+    self.updateColor = function()
+    {
+        self.color.r = self.lerp(self.startColor.r, self.endColor.r, self.lifeAsFraction());
+        self.color.g = self.lerp(self.startColor.g, self.endColor.g, self.lifeAsFraction());
+        self.color.b = self.lerp(self.startColor.b, self.endColor.b, self.lifeAsFraction());
     }
 
     /**
@@ -51,5 +87,10 @@ function Particle()
     {
         return 1 - (self.lifeLeft / self.lifeTime);
     }
+
+    self.getRandomArbitrary = function(min, max) 
+    {
+		return Math.random() * (max - min) + min;
+	}
 
 }

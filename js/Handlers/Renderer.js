@@ -18,19 +18,14 @@ function Renderer()
 
     self.init = function()
     {
-        self.scene.add( self.cube );
         self.camera.position.z = 5;
         self.controls.update();
 
         self.flames.init();
         self.scene.add( self.flames.points );
+        self.scene.add( self.cube );
 
-        self.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-        self.controls.dampingFactor = 0.25;
-        self.controls.screenSpacePanning = false;
-        self.controls.minDistance = 1;
-        self.controls.maxDistance = 50;
-        self.controls.maxPolarAngle = Math.PI / 2;
+        self.initCameraControl();
 
         requestAnimationFrame(self.update);
     }
@@ -59,6 +54,15 @@ function Renderer()
     {
         self.renderer.render(self.scene, self.camera);
     }
-   
+
+    self.initCameraControl = function()
+    {
+        self.controls.enableDamping = true;
+        self.controls.dampingFactor = 0.25;
+        self.controls.screenSpacePanning = false;
+        self.controls.minDistance = 1;
+        self.controls.maxDistance = 50;
+        self.controls.maxPolarAngle = Math.PI / 2;
+    }
 }
 

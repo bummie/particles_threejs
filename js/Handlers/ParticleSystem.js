@@ -22,8 +22,11 @@ function ParticleSystem()
 
     self.update = function(deltaTime)
     {
-		self.points.geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( self.particlesToVerts(deltaTime), 3 ) );
+		self.points.geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( self.particlePositionsToVerts(deltaTime), 3 ) );
 		self.points.geometry.attributes.position.needsUpdate = true;
+
+		self.points.geometry.addAttribute( 'color', new THREE.Float32BufferAttribute( self.particleColorsToColor(), 3 ) );
+		self.points.geometry.attributes.color.needsUpdate = true;
 	}
 	
 	/**
@@ -43,22 +46,37 @@ function ParticleSystem()
 	{
 		return new THREE.PointsMaterial(
 		{
-            color: 0xFF0000,
+            color: 0xFFFFFF,
             size: 1,
-            opacity: 1
+			opacity: 1,
+			vertexColors: THREE.VertexColors
          });
 	}
 
 	/**
 	 * Turns the particles positins into an array of only the positions to be loaded into the 
 	 */
-	self.particlesToVerts = function(deltaTime)
+	self.particlePositionsToVerts = function(deltaTime)
 	{
 		let verts = [];
 		for(let i = 0; i < self.particles.length; i++)
 		{
 			self.particles[i].update(deltaTime);
 			verts.push(self.particles[i].position.x, self.particles[i].position.y, self.particles[i].position.z);
+		}
+
+		return verts;
+	}
+
+		/**
+	 * Turns the particles positins into an array of only the positions to be loaded into the 
+	 */
+	self.particleColorsToColor = function()
+	{
+		let verts = [];
+		for(let i = 0; i < self.particles.length; i++)
+		{
+			verts.push(self.particles[i].color.r, self.particles[i].color.g, self.particles[i].color.b);
 		}
 
 		return verts;

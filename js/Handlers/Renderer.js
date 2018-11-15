@@ -5,12 +5,14 @@ function Renderer()
     self.scene = new THREE.Scene();
     self.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 1000 );
     self.renderer = new THREE.WebGLRenderer({canvas: document.getElementById("mainCanvas"), antialias: true});
+    self.controls = new THREE.OrbitControls( self.camera, self.renderer.domElement );
 
+    // Cube
     self.geometry = new THREE.BoxGeometry( 1, 1, 1 );
     self.material = new THREE.MeshBasicMaterial( { color: 0x0f0fff } );
     self.cube = new THREE.Mesh( self.geometry, self.material ); 
 
-    self.snow = new ParticleSystem();
+    self.flames = new ParticleSystem();
 
 	self.lastTime = Date.now();
 
@@ -18,9 +20,17 @@ function Renderer()
     {
         self.scene.add( self.cube );
         self.camera.position.z = 5;
+        self.controls.update();
 
-        self.snow.init();
-        self.scene.add( self.snow.points );
+        self.flames.init();
+        self.scene.add( self.flames.points );
+
+        self.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+        self.controls.dampingFactor = 0.25;
+        self.controls.screenSpacePanning = false;
+        self.controls.minDistance = 1;
+        self.controls.maxDistance = 50;
+        self.controls.maxPolarAngle = Math.PI / 2;
 
         requestAnimationFrame(self.update);
     }
@@ -33,10 +43,11 @@ function Renderer()
 		self.cube.rotation.x += 0.01;
         self.cube.rotation.y += 0.01;
         
-        self.snow.update(deltaTime);
+        self.flames.update(deltaTime);
 
 		self.render();
-		
+        
+        self.controls.update();
 		self.lastTime = now;
         requestAnimationFrame(self.update);
     }

@@ -20,13 +20,15 @@ function ParticleSystem()
 		}
     }
 
-    self.update = function()
+    self.update = function(deltaTime)
     {
-		
-		self.points.geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( self.particlesToVerts(), 3 ) );
+		self.points.geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( self.particlesToVerts(deltaTime), 3 ) );
 		self.points.geometry.attributes.position.needsUpdate = true;
 	}
 	
+	/**
+	 * Inits the geometry buffer
+	 */
 	self.initBuffer = function()
 	{
 		let geometry = new THREE.BufferGeometry();
@@ -34,6 +36,9 @@ function ParticleSystem()
 		return geometry;
 	}
 
+	/**
+	 * Inits the material used for all of the particles
+	 */
 	self.initMaterial = function()
 	{
 		return new THREE.PointsMaterial(
@@ -44,12 +49,15 @@ function ParticleSystem()
          });
 	}
 
-	self.particlesToVerts = function()
+	/**
+	 * Turns the particles positins into an array of only the positions to be loaded into the 
+	 */
+	self.particlesToVerts = function(deltaTime)
 	{
 		let verts = [];
 		for(let i = 0; i < self.particles.length; i++)
 		{
-			self.particles[i].update(0.001);
+			self.particles[i].update(deltaTime);
 			verts.push(self.particles[i].position.x, self.particles[i].position.y, self.particles[i].position.z);
 		}
 

@@ -12,6 +12,8 @@ function Renderer()
 
     self.snow = new ParticleSystem();
 
+	self.lastTime = Date.now();
+
     self.init = function()
     {
         self.scene.add( self.cube );
@@ -25,12 +27,17 @@ function Renderer()
 
     self.update = function()
     {
-        self.cube.rotation.x += 0.01;
+		let now = Date.now();
+		let deltaTime = (now - self.lastTime);
+
+		self.cube.rotation.x += 0.01;
         self.cube.rotation.y += 0.01;
         
-        self.snow.update();
+        self.snow.update(deltaTime);
 
-        self.render();
+		self.render();
+		
+		self.lastTime = now;
         requestAnimationFrame(self.update);
     }
 

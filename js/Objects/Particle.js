@@ -23,27 +23,8 @@ function Particle()
         self.lifeLeft -= deltaTime;
         if(self.isDead()){ return; }
 
-        self.updatePosition();
+        self.updatePosition((deltaTime/1000));
         self.updateColor();
-    }
-
-    /**
-     * Copies data from one particle to another
-     */
-    self.copyData = function(particle)
-    {
-        self.position = particle.position;
-        self.velocity = particle.velocity;
-        self.acceleration = particle.acceleration;
-        self.gravity = particle.gravity;
-        self.useGravity = particle.useGravity; 
-      
-        self.lifeTime = particle.lifeTime; 
-        self.lifeLeft = particle.lifeLeft;
- 
-        self.startColor = particle.startColor;
-        self.endColor = particle.endColor;
-        self.color = particle.color;
     }
 
     /** 
@@ -58,11 +39,15 @@ function Particle()
     /**
      * Updates the position for the particle based on life
      */
-    self.updatePosition = function()
+    self.updatePosition = function(deltaTime)
     {
-        self.position.x += self.velocity.x;
-        self.position.y += self.velocity.y;
-        self.position.z += self.velocity.z;
+        self.velocity.x += self.acceleration.x * deltaTime; 
+        self.velocity.y += self.acceleration.y * deltaTime;
+        self.velocity.z += self.acceleration.z * deltaTime;
+
+        self.position.x += self.velocity.x * deltaTime;
+        self.position.y += self.velocity.y * deltaTime;
+        self.position.z += self.velocity.z * deltaTime;
     }
 
     /**
@@ -83,11 +68,17 @@ function Particle()
         return a + fraction * (b - a);
     }
 
+    /**
+     * Returns how much the particle has to live as a fraction
+     */
     self.lifeAsFraction = function()
     {
         return 1 - (self.lifeLeft / self.lifeTime);
     }
 
+    /**
+     * Returns a random value between a minimum and maximum value
+     */
     self.getRandomArbitrary = function(min, max) 
     {
 		return Math.random() * (max - min) + min;

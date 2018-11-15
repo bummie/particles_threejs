@@ -11,10 +11,15 @@ function FlameParticle()
         self.position.z = 0;
 
         // Velocity
-        self.velocity.x = self.getRandomArbitrary(-0.01, 0.01);
-        self.velocity.y = self.getRandomArbitrary(0.007, 0.08);
-        self.velocity.z = self.getRandomArbitrary(-0.01, 0.01);
+        self.velocity.x = self.getRandomArbitrary(-1, 1);
+        self.velocity.y = self.getRandomArbitrary(2, 5);
+        self.velocity.z = self.getRandomArbitrary(-1, 1);
     
+        // Acceleration
+        self.acceleration.x = 0;
+        self.acceleration.y = -0.6;
+        self.acceleration.z = 0;
+
         // StartColor
         self.startColor.r = 1.0;
         self.startColor.g = 0.0;
@@ -26,7 +31,7 @@ function FlameParticle()
         self.endColor.b = 0.0;
 
         // Life
-        self.lifeTime = self.getRandomArbitrary(1000, 1500);
+        self.lifeTime = self.getRandomArbitrary(500, 1500);
         self.lifeLeft = self.lifeTime;
     }
 

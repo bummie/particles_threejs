@@ -116,6 +116,7 @@ function ParticleSystem()
             size: 1,
 			opacity: 1,
 			depthWrite: false,
+			//depthTest: false,
 			vertexColors: THREE.VertexColors
          });
 	}

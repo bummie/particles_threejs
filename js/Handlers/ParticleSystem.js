@@ -5,8 +5,8 @@ function ParticleSystem()
     self.maxParticles = 1000;
     self.availableParticles = [];
     self.particles = [];
-    self.spawnRateMS = 100;
-	self.spawnAmount = 100;
+    self.spawnRateMS = 10;
+	self.spawnAmount = 10;
 	self.lastTimeSpawned = Date.now();
 
     self.particleType = "flame";
@@ -116,7 +116,6 @@ function ParticleSystem()
             size: 1,
 			opacity: 1,
 			depthWrite: false,
-			//depthTest: false,
 			vertexColors: THREE.VertexColors
          });
 	}

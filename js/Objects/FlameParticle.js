@@ -6,14 +6,14 @@ function FlameParticle()
     self.reset = function()
     {
         // Position
-        self.position.x = 0;
+        self.position.x = self.getRandomArbitrary(-0.5, 0.5);
         self.position.y = -2;
-        self.position.z = 0;
+        self.position.z = self.getRandomArbitrary(-1, 1);
 
         // Velocity
-        self.velocity.x = self.getRandomArbitrary(-1, 1);
+        self.velocity.x = self.getRandomArbitrary(-0.1, 0.1);
         self.velocity.y = self.getRandomArbitrary(2, 5);
-        self.velocity.z = self.getRandomArbitrary(-1, 1);
+        self.velocity.z = self.getRandomArbitrary(-0.1, 0.1);
     
         // Acceleration
         self.acceleration.x = 0;

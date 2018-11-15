@@ -6,7 +6,8 @@ function Particle()
     self.veloctity = { x: 0, y: Math.random() + 0.05, z: 0 };
     self.acceleration = { x: 0, y: 0, z: 0 };
     self.lifetime = 3000;
-    self.startColor = { r: 10, g: 10, b: 10 };
+	self.startColor = { r: 10, g: 10, b: 10 };
+	self.color = { r: Math.random, g: 10, b: 10 };
     self.useGravity = false;
     self.gravity = { x: 0, y: -9.81, z: 0 };
 

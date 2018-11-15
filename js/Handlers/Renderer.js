@@ -23,7 +23,7 @@ function Renderer()
 
         self.flames.init();
         self.scene.add( self.flames.points );
-        self.scene.add( self.cube );
+        //self.scene.add( self.cube );
 
         self.initCameraControl();
 

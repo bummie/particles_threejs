@@ -5,8 +5,8 @@ function ParticleSystem()
     self.maxParticles = 1000;
     self.availableParticles = [];
     self.particles = [];
-    self.spawnRateMS = 1000;
-	self.spawnAmount = 100;
+    self.spawnRateMS = 100;
+	self.spawnAmount = 10;
 	self.lastTimeSpawned = Date.now();
 
     self.particleType = "flame";
@@ -19,10 +19,14 @@ function ParticleSystem()
 
     self.update = function(deltaTime)
     {
+		self.garbageCollection();
 		self.spawnParticles();
 		self.updateGeometry(deltaTime);
 	}
 
+	/**
+	 * Spawns particles in given bursts
+	 */
 	self.spawnParticles = function()
 	{
 		if(self.particles.length >= self.maxParticles) { return; }
@@ -30,7 +34,6 @@ function ParticleSystem()
 		let now = Date.now();
 		if((now - self.lastTimeSpawned) < self.spawnRateMS ) { return; }
 
-		console.log(self.particles.length);
 		for(let i = 0; i < self.spawnAmount; i++)
 		{
 			self.spawnParticle();
@@ -39,6 +42,22 @@ function ParticleSystem()
 		self.lastTimeSpawned = now;
 	}
 	
+	/**
+	 * Frees dead particles from in action list to avaiable
+	 */
+	self.garbageCollection = function()
+	{
+		for(let i = self.particles.length - 1; i >= 0; i--)
+		{
+			if(self.particles[i].isDead())
+			{
+				self.availableParticles.push(self.particles[i]);
+				self.particles.splice(i, 1);
+				console.log("Available: " + self.availableParticles.length);
+				console.log("Particles: " + self.particles.length);			}
+		}
+	}
+
 	/**
 	 * Spawns a particle, either one existing being resued or creates a new one
 	 */
@@ -52,7 +71,11 @@ function ParticleSystem()
 			return;
 		}
 
-		self.particles.push(self.availableParticles.pop().copyData(self.particleMother));
+		let poppedParticle = self.availableParticles.pop();
+		poppedParticle.reset();
+
+		if(poppedParticle == null || poppedParticle == undefined) { return; }
+		self.particles.push(poppedParticle);
 	}
 
 	/**
@@ -99,6 +122,8 @@ function ParticleSystem()
 		let verts = [];
 		for(let i = 0; i < self.particles.length; i++)
 		{
+			if(self.particles[i] == undefined) { continue; }
+
 			self.particles[i].update(deltaTime);
 			verts.push(self.particles[i].position.x, self.particles[i].position.y, self.particles[i].position.z);
 		}
@@ -114,6 +139,8 @@ function ParticleSystem()
 		let verts = [];
 		for(let i = 0; i < self.particles.length; i++)
 		{
+			if(self.particles[i] == undefined) { continue; }
+
 			verts.push(self.particles[i].color.r, self.particles[i].color.g, self.particles[i].color.b);
 		}
 

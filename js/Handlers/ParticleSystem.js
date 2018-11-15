@@ -6,14 +6,18 @@ function ParticleSystem()
     self.availableParticles = [];
     self.particles = [];
     self.spawnRateMS = 100;
-	self.spawnAmount = 10;
+	self.spawnAmount = 100;
 	self.lastTimeSpawned = Date.now();
 
     self.particleType = "flame";
 	self.points = null;  
+	self.sprite = null;
 
     self.init = function()
     {
+		var textureLoader = new THREE.TextureLoader();
+		self.sprite = textureLoader.load('./resources/textures/flame.png' );
+
 		self.points = new THREE.Points( self.initBuffer(), self.initMaterial() );
     }
 
@@ -53,8 +57,7 @@ function ParticleSystem()
 			{
 				self.availableParticles.push(self.particles[i]);
 				self.particles.splice(i, 1);
-				console.log("Available: " + self.availableParticles.length);
-				console.log("Particles: " + self.particles.length);			}
+			}
 		}
 	}
 
@@ -107,9 +110,12 @@ function ParticleSystem()
 	{
 		return new THREE.PointsMaterial(
 		{
-            color: 0xFFFFFF,
+			map: self.sprite, 
+			blending: THREE.AdditiveBlending, 
+		 	transparent: true,
             size: 1,
 			opacity: 1,
+			depthWrite: false,
 			vertexColors: THREE.VertexColors
          });
 	}

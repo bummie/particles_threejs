@@ -2,8 +2,8 @@ function Particle()
 {
     let self = this;
 
-    self.position = { x: 0, y: 0, z: 0 };
-    self.veloctity = { x: 0, y: 1, z: 0 };
+    self.position = { x: Math.random() * (10 - 12) + 1, y: Math.random() * (20 - 1) + 1, z: 0 };
+    self.veloctity = { x: 0, y: 0.1, z: 0 };
     self.acceleration = { x: 0, y: 0, z: 0 };
     self.lifetime = 1;
     self.startColor = { r: 10, g: 10, b: 10 };

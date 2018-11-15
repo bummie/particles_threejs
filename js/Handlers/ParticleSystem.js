@@ -53,7 +53,10 @@ function ParticleSystem()
         }
         geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
 
-        self.points = new THREE.Points( geometry, material );
+		if(self.points == null) { self.points = new THREE.Points( geometry, material ); }
+		
+		self.points.geometry = geometry;
+		self.points.geometry.attributes.position.needsUpdate = true;
     }
 
 }

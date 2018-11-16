@@ -4,8 +4,8 @@ function SmokeSystem()
 	ParticleSystem.call(self);
 
 	self.maxParticles = 1000;
-    self.spawnRateMS = 5;
-	self.spawnAmount = 50;
+    self.spawnRateMS = 100;
+	self.spawnAmount = self.getRandomArbitrary(20, 70);
 
 	self.particleType = "smoke";
 

@@ -7,7 +7,7 @@ function SmokeParticle()
     {
         // Position
         self.position.x = self.getRandomArbitrary(-0.5, 0.5);
-        self.position.y = -2;
+        self.position.y = 0;
         self.position.z = self.getRandomArbitrary(-1, 1);
 
         // Velocity
@@ -26,12 +26,12 @@ function SmokeParticle()
         self.startColor.b = 0.0;
 
         // EndColor
-        self.endColor.r = 0.7;
-        self.endColor.g = 0.7;
-        self.endColor.b = 0.7;
+        self.endColor.r = 1.0;
+        self.endColor.g = 1.0;
+        self.endColor.b = 1.0;
 
         // Life
-        self.lifeTime = self.getRandomArbitrary(2500, 3000);
+        self.lifeTime = self.getRandomArbitrary(500, 1200);
         self.lifeLeft = self.lifeTime;
     }
 

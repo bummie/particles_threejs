@@ -17,9 +17,7 @@ function ParticleSystem()
 
     self.init = function()
     {
-		var textureLoader = new THREE.TextureLoader();
-		self.sprite = textureLoader.load( self.particleSpritePath );
-
+		self.loadSprite();
 		self.points = new THREE.Points( self.initBuffer(), self.initMaterial() );
     }
 
@@ -28,6 +26,13 @@ function ParticleSystem()
 		self.garbageCollection();
 		self.spawnParticles();
 		self.updateGeometry(deltaTime);
+	}
+	
+	self.loadSprite = function()
+	{
+		if(self.particleSpritePath == null) { return; }
+		var textureLoader = new THREE.TextureLoader();
+		self.sprite = textureLoader.load( self.particleSpritePath );
 	}
 
 	/**
@@ -81,6 +86,10 @@ function ParticleSystem()
 				case "smoke":
 					particle = new SmokeParticle();
 				break;
+				
+				case "confetti":
+					particle = new ConfettiParticle();
+				break;
 			}
 			
 			self.particles.push(particle); 
@@ -125,7 +134,7 @@ function ParticleSystem()
 		return new THREE.PointsMaterial(
 		{
 			map: self.sprite, 
-			blending: THREE.AdditiveBlending, 
+			//blending: THREE.AdditiveBlending, 
 		 	transparent: true,
             size: 1,
 			opacity: 1,

@@ -10,6 +10,7 @@ function Renderer()
     self.reflectionCube = null; 
 
     self.particleSystems = [];
+    self.externalForce = { x: 0.5, y: 0, z: 0 }; // Wind
 
 	self.lastTime = Date.now();
 
@@ -32,7 +33,9 @@ function Renderer()
 		let now = Date.now();
 		let deltaTime = (now - self.lastTime);
 
-        self.updateParticleSystems(deltaTime);
+        self.externalForce.x = self.getRandomArbitrary(-1, 1);
+        self.externalForce.z = self.getRandomArbitrary(-1, 1);
+        self.updateParticleSystems(deltaTime, self.externalForce);
 		self.render();
         
         self.controls.update();
@@ -87,13 +90,20 @@ function Renderer()
         }
     }
 
-    self.updateParticleSystems = function(deltaTime)
+    self.updateParticleSystems = function(deltaTime, externalForce)
     {
         for(let i = 0; i < self.particleSystems.length; i++)
         {
-            self.particleSystems[i].update(deltaTime);
+            self.particleSystems[i].update(deltaTime, externalForce);
         }
     }
 
+	/**
+     * Returns a random value between a minimum and maximum value
+     */
+    self.getRandomArbitrary = function(min, max) 
+    {
+		return Math.random() * (max - min) + min;
+	}
 }
 

@@ -12,6 +12,7 @@ function ParticleSystem()
 	self.particleType = "default";
 	self.particleTransparent = false;
 
+	self.particleSize = 1;
     self.particleSpritePath = "./resources/textures/flame.png";
 	self.points = null;  
 	self.sprite = null;
@@ -22,11 +23,11 @@ function ParticleSystem()
 		self.points = new THREE.Points( self.initBuffer(), self.initMaterial() );
     }
 
-    self.update = function(deltaTime)
+    self.update = function(deltaTime, externalForce)
     {
 		self.garbageCollection();
 		self.spawnParticles();
-		self.updateGeometry(deltaTime);
+		self.updateGeometry(deltaTime, externalForce);
 	}
 	
 	self.loadSprite = function()
@@ -112,9 +113,9 @@ function ParticleSystem()
 	/**
 	 * Updates the vertices in the geometry
 	 */
-	self.updateGeometry = function(deltaTime)
+	self.updateGeometry = function(deltaTime, externalForce)
 	{
-		self.points.geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( self.particlePositionsToVerts(deltaTime), 3 ) );
+		self.points.geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( self.particlePositionsToVerts(deltaTime, externalForce), 3 ) );
 		self.points.geometry.attributes.position.needsUpdate = true;
 
 		self.points.geometry.addAttribute( 'color', new THREE.Float32BufferAttribute( self.particleColorsToColor(), 3 ) );
@@ -141,7 +142,7 @@ function ParticleSystem()
 			map: self.sprite, 
 			//blending: THREE.AdditiveBlending, 
 		 	transparent: true,
-            size: 1,
+            size: self.particleSize,
 			opacity: 1,
 			depthWrite: !self.particleTransparent,
 			vertexColors: THREE.VertexColors
@@ -151,14 +152,14 @@ function ParticleSystem()
 	/**
 	 * Turns the particles positins into an array of only the positions to be loaded into the 
 	 */
-	self.particlePositionsToVerts = function(deltaTime)
+	self.particlePositionsToVerts = function(deltaTime, externalForce)
 	{
 		let verts = [];
 		for(let i = 0; i < self.particles.length; i++)
 		{
 			if(self.particles[i] == undefined) { continue; }
 
-			self.particles[i].update(deltaTime);
+			self.particles[i].update(deltaTime, externalForce);
 			verts.push(self.particles[i].position.x, self.particles[i].position.y, self.particles[i].position.z);
 		}
 

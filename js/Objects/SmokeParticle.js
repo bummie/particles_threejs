@@ -7,7 +7,7 @@ function SmokeParticle()
     {
         // Position
         self.position.x = self.getRandomArbitrary(-0.5, 0.5);
-        self.position.y = self.getRandomArbitrary(1, 1.6);
+        self.position.y = self.getRandomArbitrary(0.8, 1.2);
         self.position.z = self.getRandomArbitrary(-1, 1);
 
         // Velocity

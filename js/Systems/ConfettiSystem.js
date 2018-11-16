@@ -9,6 +9,8 @@ function ConfettiSystem()
 
 	self.particleType = "confetti";
 
+	self.particleSize = 0.25;
+
 	self.particleSpritePath = "./resources/textures/particles/confetti.png";
 	self.particleTransparent = true;
 }

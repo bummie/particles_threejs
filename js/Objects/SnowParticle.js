@@ -7,7 +7,7 @@ function SnowParticle()
     {
         // Position
         self.position.x = self.getRandomArbitrary(-10, 10);
-        self.position.y = 50;
+        self.position.y = 20;
         self.position.z = self.getRandomArbitrary(-10, 10) - 15;
 
         // Velocity
@@ -17,7 +17,7 @@ function SnowParticle()
     
         // Acceleration
         self.acceleration.x = 0;
-        self.acceleration.y = self.getRandomArbitrary(-2.5, -0.1);
+        self.acceleration.y = self.getRandomArbitrary(-0.5, -0.1);
         self.acceleration.z = 0;
 
         // StartColor
@@ -31,7 +31,7 @@ function SnowParticle()
         self.endColor.b = 0.85;
         
         // Life
-        self.lifeTime = self.getRandomArbitrary(7000, 10000);
+        self.lifeTime = self.getRandomArbitrary(15000, 17000);
         self.lifeLeft = self.lifeTime;
     }
 

@@ -18,12 +18,12 @@ function Particle()
     /**
      * Updates the properties for the particle
      */
-    self.update = function(deltaTime)
+    self.update = function(deltaTime, externalForce)
     {
         self.lifeLeft -= deltaTime;
         if(self.isDead()){ return; }
 
-        self.updatePosition((deltaTime/1000));
+        self.updatePosition((deltaTime/1000), externalForce);
         self.updateColor();
     }
 
@@ -39,11 +39,11 @@ function Particle()
     /**
      * Updates the position for the particle based on life
      */
-    self.updatePosition = function(deltaTime)
+    self.updatePosition = function(deltaTime, externalForce)
     {
-        self.velocity.x += self.acceleration.x * deltaTime; 
-        self.velocity.y += self.acceleration.y * deltaTime;
-        self.velocity.z += self.acceleration.z * deltaTime;
+        self.velocity.x += (self.acceleration.x + externalForce.x) * deltaTime; 
+        self.velocity.y += (self.acceleration.y + externalForce.x) * deltaTime;
+        self.velocity.z += (self.acceleration.z + externalForce.x) * deltaTime;
 
         self.position.x += self.velocity.x * deltaTime;
         self.position.y += self.velocity.y * deltaTime;

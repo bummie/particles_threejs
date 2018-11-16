@@ -31,10 +31,9 @@ function Renderer()
     self.update = function()
     {
 		let now = Date.now();
-		let deltaTime = (now - self.lastTime);
-
-        self.externalForce.x = self.getRandomArbitrary(-1, 1);
-        self.externalForce.z = self.getRandomArbitrary(-1, 1);
+        let deltaTime = (now - self.lastTime);
+        
+        self.updateWind();
         self.updateParticleSystems(deltaTime, self.externalForce);
 		self.render();
         
@@ -96,6 +95,17 @@ function Renderer()
         {
             self.particleSystems[i].update(deltaTime, externalForce);
         }
+    }
+
+    self.updateWind = function()
+    {
+        let maxWind = 4;
+
+        if(self.externalForce.x > maxWind || self.externalForce.x < -maxWind ) { self.externalForce.x = 0; }
+        if(self.externalForce.z > maxWind || self.externalForce.z < -maxWind ) { self.externalForce.z = 0; }
+
+        self.externalForce.x += self.getRandomArbitrary(-1, 1);
+        self.externalForce.z += self.getRandomArbitrary(-1, 1);
     }
 
 	/**

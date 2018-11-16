@@ -5,8 +5,6 @@ function Particle()
     self.position = { x: 0, y: 0, z: 0 };
     self.velocity = { x: 0, y: 0, z: 0 };
     self.acceleration = { x: 0, y: 0, z: 0 };
-    self.gravity = { x: 0, y: -9.81, z: 0 };
-    self.useGravity = false;
 
     self.lifeTime = 3000;
     self.lifeLeft = self.lifeTime;

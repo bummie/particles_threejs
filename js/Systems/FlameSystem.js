@@ -10,4 +10,5 @@ function FlameSystem()
 	self.particleType = "flame";
 
 	self.particleSpritePath = "./resources/textures/particles/flame.png";
+	self.particleTransparent = true;
 }

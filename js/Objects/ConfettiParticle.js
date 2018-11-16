@@ -6,14 +6,14 @@ function ConfettiParticle()
     self.reset = function()
     {
         // Position
-        self.position.x = self.getRandomArbitrary(-0.5, 0.5);
+        self.position.x = self.getRandomArbitrary(-0.1, 0.1);
         self.position.y = -2;
-        self.position.z = self.getRandomArbitrary(-1, 1) + 5;
+        self.position.z = self.getRandomArbitrary(-0.1, 0.1) + 10;
 
         // Velocity
-        self.velocity.x = self.getRandomArbitrary(-3, 3);
+        self.velocity.x = self.getRandomArbitrary(-2, 2);
         self.velocity.y = self.getRandomArbitrary(12, 16);
-        self.velocity.z = self.getRandomArbitrary(-3, 3);
+        self.velocity.z = self.getRandomArbitrary(-2, 2);
     
         // Acceleration
         self.acceleration.x = 0;
@@ -31,7 +31,7 @@ function ConfettiParticle()
         self.endColor.b = self.startColor.b;
 
         // Life
-        self.lifeTime = self.getRandomArbitrary(1000, 3000);
+        self.lifeTime = self.getRandomArbitrary(4000, 5000);
         self.lifeLeft = self.lifeTime;
     }
 

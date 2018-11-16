@@ -10,6 +10,7 @@ function ParticleSystem()
 	self.lastTimeSpawned = Date.now();
 
 	self.particleType = "default";
+	self.particleTransparent = false;
 
     self.particleSpritePath = "./resources/textures/flame.png";
 	self.points = null;  
@@ -138,7 +139,7 @@ function ParticleSystem()
 		 	transparent: true,
             size: 1,
 			opacity: 1,
-			depthWrite: false,
+			depthWrite: !self.particleTransparent,
 			vertexColors: THREE.VertexColors
          });
 	}

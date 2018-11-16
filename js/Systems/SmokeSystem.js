@@ -10,4 +10,5 @@ function SmokeSystem()
 	self.particleType = "smoke";
 
 	self.particleSpritePath = "./resources/textures/particles/smoke.png";
+	self.particleTransparent = true;
 }

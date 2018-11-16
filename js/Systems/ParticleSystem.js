@@ -9,14 +9,16 @@ function ParticleSystem()
 	self.spawnAmount = 10;
 	self.lastTimeSpawned = Date.now();
 
-    self.particleType = "flame";
+	self.particleType = "default";
+
+    self.particleSpritePath = "./resources/textures/flame.png";
 	self.points = null;  
 	self.sprite = null;
 
     self.init = function()
     {
 		var textureLoader = new THREE.TextureLoader();
-		self.sprite = textureLoader.load('./resources/textures/flame.png' );
+		self.sprite = textureLoader.load( self.particleSpritePath );
 
 		self.points = new THREE.Points( self.initBuffer(), self.initMaterial() );
     }
@@ -68,7 +70,15 @@ function ParticleSystem()
 	{
 		if(self.availableParticles.length <= 0) 
 		{
-			let particle = new FlameParticle();
+			let particle = null;
+			
+			switch(self.particleType)
+			{
+				case "flame":
+					particle = new FlameParticle();
+				break;
+			}
+			
 			self.particles.push(particle); 
 			
 			return;

@@ -12,7 +12,7 @@ function Renderer()
     self.material = new THREE.MeshBasicMaterial( { color: 0x0f0fff } );
     self.cube = new THREE.Mesh( self.geometry, self.material ); 
 
-    self.flames = new ParticleSystem();
+    self.flames = new FlameSystem();
 
 	self.lastTime = Date.now();
 

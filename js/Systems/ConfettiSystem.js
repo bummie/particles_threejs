@@ -10,7 +10,7 @@ function ConfettiSystem()
 	self.particleType = "confetti";
 
 	self.particleSize = 0.25;
-
+	self.blending = THREE.AdditiveBlending;
 	self.particleSpritePath = "./resources/textures/particles/confetti.png";
 	self.particleTransparent = true;
 }

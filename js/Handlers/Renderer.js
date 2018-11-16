@@ -3,7 +3,7 @@ function Renderer()
     let self = this;
 
     self.scene = new THREE.Scene();
-    self.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 3000 );
+    self.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.001, 3000 );
     self.renderer = new THREE.WebGLRenderer({canvas: document.getElementById("mainCanvas"), antialias: true});
     self.controls = new THREE.OrbitControls( self.camera, self.renderer.domElement );
 
@@ -18,6 +18,9 @@ function Renderer()
     self.floorMaterial.color = new THREE.Color( 0x2F2F2F );
     self.floor = new THREE.Mesh( new THREE.CubeGeometry( 200, 0.1, 200 ), self.floorMaterial );
 
+    /**
+     * Init stuff before update loop starts
+     */
     self.init = function()
     {
         self.camera.position.z = 5;
@@ -34,6 +37,9 @@ function Renderer()
         requestAnimationFrame(self.update);
     }
 
+    /**
+     * Updates every frame
+     */
     self.update = function()
     {
 		let now = Date.now();
@@ -56,6 +62,9 @@ function Renderer()
         self.renderer.render(self.scene, self.camera);
     }
 
+    /**
+     * Inits the camera controller with settings
+     */
     self.initCameraControl = function()
     {
         self.controls.enableDamping = true;
@@ -66,6 +75,9 @@ function Renderer()
         self.controls.maxPolarAngle = Math.PI / 2;
     }
 
+    /**
+     * Initilializes the skybox textures
+     */
     self.initSkybox = function()
     {
         let path = "./resources/textures/skybox/";
@@ -80,6 +92,9 @@ function Renderer()
         self.reflectionCube.format = THREE.RGBFormat;
     }
 
+    /**
+     * Initializes all the particle systems
+     */
     self.initParticleSystems = function()
     {
         self.particleSystems.push(new FlameSystem());
@@ -95,6 +110,9 @@ function Renderer()
         }
     }
 
+    /**
+     * Updates all the particles in the system
+     */
     self.updateParticleSystems = function(deltaTime, externalForce)
     {
         for(let i = 0; i < self.particleSystems.length; i++)
@@ -103,6 +121,9 @@ function Renderer()
         }
     }
 
+    /**
+     * Updates the wind direction
+     */
     self.updateWind = function()
     {
         let maxWind = 3;

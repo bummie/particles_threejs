@@ -13,6 +13,7 @@ function ParticleSystem()
 	self.particleTransparent = false;
 
 	self.particleSize = 1;
+	self.blending = THREE.NormalBlending;
     self.particleSpritePath = "./resources/textures/flame.png";
 	self.points = null;  
 	self.sprite = null;
@@ -140,7 +141,7 @@ function ParticleSystem()
 		return new THREE.PointsMaterial(
 		{
 			map: self.sprite, 
-			//blending: THREE.AdditiveBlending, 
+			blending: self.blending, 
 		 	transparent: true,
             size: self.particleSize,
 			opacity: 1,

@@ -77,6 +77,8 @@ function Renderer()
         self.particleSystems.push(new FlameSystem());
         self.particleSystems.push(new SmokeSystem());
         self.particleSystems.push(new ConfettiSystem());
+        self.particleSystems.push(new SnowSystem());
+        
 
         for(let i = 0; i < self.particleSystems.length; i++)
         {

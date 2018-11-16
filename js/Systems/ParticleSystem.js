@@ -91,6 +91,10 @@ function ParticleSystem()
 				case "confetti":
 					particle = new ConfettiParticle();
 				break;
+
+				case "snow":
+					particle = new SnowParticle();
+				break;
 			}
 			
 			self.particles.push(particle); 

@@ -7,12 +7,9 @@ function Renderer()
     self.renderer = new THREE.WebGLRenderer({canvas: document.getElementById("mainCanvas"), antialias: true});
     self.controls = new THREE.OrbitControls( self.camera, self.renderer.domElement );
 
-    // Cube
-    self.geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    self.material = new THREE.MeshBasicMaterial( { color: 0x0f0fff } );
-    self.cube = new THREE.Mesh( self.geometry, self.material ); 
+    self.reflectionCube = null; 
 
-    self.flames = new FlameSystem();
+    self.particleSystems = [];
 
 	self.lastTime = Date.now();
 
@@ -21,12 +18,12 @@ function Renderer()
         self.camera.position.z = 5;
         self.controls.update();
 
-        self.flames.init();
-        self.scene.add( self.flames.points );
-        //self.scene.add( self.cube );
-
+        self.initSkybox();
+        self.scene.background = self.reflectionCube;
+ 
+        self.initParticleSystems();
+        
         self.initCameraControl();
-
         requestAnimationFrame(self.update);
     }
 
@@ -35,11 +32,7 @@ function Renderer()
 		let now = Date.now();
 		let deltaTime = (now - self.lastTime);
 
-		self.cube.rotation.x += 0.01;
-        self.cube.rotation.y += 0.01;
-        
-        self.flames.update(deltaTime);
-
+        self.updateParticleSystems(deltaTime);
 		self.render();
         
         self.controls.update();
@@ -64,5 +57,40 @@ function Renderer()
         self.controls.maxDistance = 50;
         self.controls.maxPolarAngle = Math.PI / 2;
     }
+
+    self.initSkybox = function()
+    {
+        let path = "./resources/textures/skybox/";
+        let format = '.jpg';
+        let urls = [
+            path + 'px' + format, path + 'nx' + format,
+            path + 'py' + format, path + 'ny' + format,
+            path + 'pz' + format, path + 'nz' + format
+        ];
+
+        self.reflectionCube = new THREE.CubeTextureLoader().load( urls );
+        self.reflectionCube.format = THREE.RGBFormat;
+    }
+
+    self.initParticleSystems = function()
+    {
+        self.particleSystems.push(new FlameSystem());
+        self.particleSystems.push(new SmokeSystem());
+
+        for(let i = 0; i < self.particleSystems.length; i++)
+        {
+            self.particleSystems[i].init();
+            self.scene.add( self.particleSystems[i].points );
+        }
+    }
+
+    self.updateParticleSystems = function(deltaTime)
+    {
+        for(let i = 0; i < self.particleSystems.length; i++)
+        {
+            self.particleSystems[i].update(deltaTime);
+        }
+    }
+
 }
 

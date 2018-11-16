@@ -77,6 +77,10 @@ function ParticleSystem()
 				case "flame":
 					particle = new FlameParticle();
 				break;
+
+				case "smoke":
+					particle = new SmokeParticle();
+				break;
 			}
 			
 			self.particles.push(particle); 
@@ -161,5 +165,13 @@ function ParticleSystem()
 		}
 
 		return verts;
+	}
+
+	/**
+     * Returns a random value between a minimum and maximum value
+     */
+    self.getRandomArbitrary = function(min, max) 
+    {
+		return Math.random() * (max - min) + min;
 	}
 }

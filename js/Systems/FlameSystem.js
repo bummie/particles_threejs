@@ -3,11 +3,11 @@ function FlameSystem()
 	let self = this;
 	ParticleSystem.call(self);
 
-	self.maxParticles = 4000;
-    self.spawnRateMS = 5;
-	self.spawnAmount = 50;
+	self.maxParticles = 2000;
+    self.spawnRateMS = self.getRandomArbitrary(5, 100);
+	self.spawnAmount = self.getRandomArbitrary(50, 100);
 
 	self.particleType = "flame";
 
-	self.particleSpritePath = "./resources/textures/flame.png";
+	self.particleSpritePath = "./resources/textures/particles/flame.png";
 }

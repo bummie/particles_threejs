@@ -5,15 +5,19 @@ function FlameParticle()
 
     self.reset = function()
     {
+
+        let radius = 0.15;
+        let degrees = self.getRandomArbitrary(1, 360);
+
         // Position
-        self.position.x = self.getRandomArbitrary(-0.5, 0.5);
+        self.position.x = radius * Math.cos(degrees);
         self.position.y = -2;
-        self.position.z = self.getRandomArbitrary(-1, 1);
+        self.position.z = radius * Math.sin(degrees);
 
         // Velocity
-        self.velocity.x = self.getRandomArbitrary(-0.1, 0.1);
-        self.velocity.y = self.getRandomArbitrary(2, 5);
-        self.velocity.z = self.getRandomArbitrary(-0.1, 0.1);
+        self.velocity.x = self.getRandomArbitrary(-0.6, 0.6);
+        self.velocity.y = self.getRandomArbitrary(1, 3);
+        self.velocity.z = self.getRandomArbitrary(-0.6, 0.6);
     
         // Acceleration
         self.acceleration.x = 0;

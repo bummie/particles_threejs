@@ -11,13 +11,13 @@ function ConfettiParticle()
         self.position.z = self.getRandomArbitrary(-0.1, 0.1) + 10;
 
         // Velocity
-        self.velocity.x = self.getRandomArbitrary(-2, 2);
-        self.velocity.y = self.getRandomArbitrary(12, 16);
-        self.velocity.z = self.getRandomArbitrary(-2, 2);
+        self.velocity.x = self.getRandomArbitrary(-1, 1);
+        self.velocity.y = self.getRandomArbitrary(15, 20);
+        self.velocity.z = self.getRandomArbitrary(-1, 1);
     
         // Acceleration
         self.acceleration.x = 0;
-        self.acceleration.y = -9.81;
+        self.acceleration.y = self.getRandomArbitrary(-9.81, -2);
         self.acceleration.z = 0;
 
         // StartColor

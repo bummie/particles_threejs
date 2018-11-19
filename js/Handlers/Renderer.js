@@ -10,7 +10,7 @@ function Renderer()
     self.reflectionCube = null; 
 
     self.particleSystems = [];
-    self.externalForce = { x: 0.5, y: 0, z: 0 }; // Wind
+    self.externalForce = { x: 0, y: 0, z: 0 }; // Wind
 
     self.lastTime = Date.now();
 
@@ -44,8 +44,9 @@ function Renderer()
         let deltaTime = (now - self.lastTime);
         
         self.updateWind();
+        self.windArrowMesh.rotation.y = Math.atan2(self.externalForce.x, self.externalForce.z) - Math.PI/2;
         self.updateParticleSystems(deltaTime, self.externalForce);
-
+        
         self.flickerFireLight(deltaTime);
 		self.render();
         
@@ -172,9 +173,16 @@ function Renderer()
             self.scene.add(stone);
         }
 
-        // Wood
-        
+        // WindDirection
+        self.windArrowMaterial = new THREE.MeshPhongMaterial();
+        self.windArrowMaterial.color = new THREE.Color( 0xFF0000 );
 
+        self.windArrowMesh = new THREE.Mesh( new THREE.CylinderGeometry( 0.3, 0.1, 1, 8 ), self.windArrowMaterial );
+        self.windArrowMesh.position.y = 0;
+        self.windArrowMesh.position.x = -2;
+        self.windArrowMesh.rotation.z = Math.PI/2;
+        self.scene.add(self.windArrowMesh);
+        
         // Confettibox
         let confettiboxMaterial = new THREE.MeshPhongMaterial();
         confettiboxMaterial.color = new THREE.Color( 0xF1F5A4 );

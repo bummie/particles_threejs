@@ -40,8 +40,8 @@ function Particle(position)
     self.updatePosition = function(deltaTime, externalForce)
     {
         self.velocity.x += (self.acceleration.x + externalForce.x) * deltaTime; 
-        self.velocity.y += (self.acceleration.y + externalForce.x) * deltaTime;
-        self.velocity.z += (self.acceleration.z + externalForce.x) * deltaTime;
+        self.velocity.y += (self.acceleration.y + externalForce.y) * deltaTime;
+        self.velocity.z += (self.acceleration.z + externalForce.z) * deltaTime;
 
         self.position.x += self.velocity.x * deltaTime;
         self.position.y += self.velocity.y * deltaTime;

@@ -13,12 +13,10 @@ function Renderer()
     self.externalForce = { x: 0.5, y: 0, z: 0 }; // Wind
 
     self.lastTime = Date.now();
-    
-    // Basic cube used a floor
-    self.floorMaterial = new THREE.MeshBasicMaterial();
-    self.floorMaterial.color = new THREE.Color( 0x2F2F2F );
-    self.floor = new THREE.Mesh( new THREE.CubeGeometry( 200, 0.1, 200 ), self.floorMaterial );
 
+    self.fireFlickDelay = 100;
+    self.fireTimeCurrent = 0;
+    
     /**
      * Init stuff before update loop starts
      */
@@ -29,9 +27,8 @@ function Renderer()
 
         self.initSkybox();
         self.scene.background = self.reflectionCube;
-        
-        self.floor.position.y = -3.5;
-        self.scene.add(self.floor);
+    
+        self.addSceneryObjects();
 
         self.initParticleSystems();
         self.initCameraControl();
@@ -48,6 +45,8 @@ function Renderer()
         
         self.updateWind();
         self.updateParticleSystems(deltaTime, self.externalForce);
+
+        self.flickerFireLight(deltaTime);
 		self.render();
         
         self.controls.update();
@@ -100,8 +99,8 @@ function Renderer()
     {
         self.particleSystems.push(new FlameSystem({x: 0, y: -2, z: 0}));
         self.particleSystems.push(new SmokeSystem({x: 0, y: -2, z: 0}));
-        self.particleSystems.push(new ConfettiSystem({x: 0, y: 5, z: 0}));
-        self.particleSystems.push(new SnowSystem({x: 0, y: 5, z: 0}));
+        self.particleSystems.push(new ConfettiSystem({x: 2.5, y: -2, z: 0}));
+        self.particleSystems.push(new SnowSystem({x: 0, y: 15, z: 0}));
 
         for(let i = 0; i < self.particleSystems.length; i++)
         {
@@ -141,6 +140,76 @@ function Renderer()
     self.getRandomArbitrary = function(min, max) 
     {
 		return Math.random() * (max - min) + min;
-	}
+    }
+    
+    /**
+     * Adds some objects to make the scenere look more nices
+     */
+    self.addSceneryObjects = function()
+    {
+        // Basic cube used a floor
+        let floorMaterial = new THREE.MeshPhongMaterial();
+        floorMaterial.color = new THREE.Color( 0xAFB1BC );
+        let floor = new THREE.Mesh( new THREE.CubeGeometry( 200, 0.1, 200 ), floorMaterial );
+        floor.position.y = -2.3;
+        self.scene.add(floor);
+
+        // Stones around fire
+        let firestoneMaterial = new THREE.MeshPhongMaterial();
+        firestoneMaterial.color = new THREE.Color( 0x282121 );
+        firestoneMaterial.shininess = 0;
+        let stoneAmount = 12;
+        let radius = 0.35;
+        let part = 360 / stoneAmount;
+        for(let i = 0; i < stoneAmount; i++)
+        {
+            let degrees = part * i;
+            let stone = new THREE.Mesh( new THREE.SphereGeometry( 0.15, 8, 8 ), firestoneMaterial );
+            stone.position.x = (radius * Math.cos(degrees));
+            stone.position.y = -2;
+            stone.position.z = (radius * Math.sin(degrees));
+
+            self.scene.add(stone);
+        }
+
+        // Wood
+        
+
+        // Confettibox
+        let confettiboxMaterial = new THREE.MeshPhongMaterial();
+        confettiboxMaterial.color = new THREE.Color( 0xF1F5A4 );
+        let confettiBox = new THREE.Mesh( new THREE.CubeGeometry( 0.5, 1, 0.5 ), confettiboxMaterial );
+        confettiBox.position.y = -2;
+        confettiBox.position.x = 2.5;
+        self.scene.add(confettiBox);
+
+        //Fire light
+        self.fireLight = new THREE.PointLight( 0xF9D57D, 1, 10 );
+        self.fireLight.position.set( 0, 0, 0 );
+        self.scene.add( self.fireLight );
+
+        // Ambient light
+        var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+        self.scene.add( light );
+    }
+
+    /**
+     * Makes the firelight flicker
+     */
+    self.flickerFireLight = function(deltaTime)
+    {
+        self.fireTimeCurrent += deltaTime;
+
+        if(self.fireTimeCurrent >= self.fireFlickDelay)
+        {
+            self.fireLight.intensity += self.getRandomArbitrary(-0.1, 0.1);
+            self.fireTimeCurrent = 0;
+            self.fireFlickDelay = self.getRandomArbitrary(100, 350);
+
+            if(self.fireLight.intensity <= 1.8) { self.fireLight.intensity = 2; }
+            if(self.fireLight.intensity > 2.2) { self.fireLight.intensity = 2; }
+        }
+        
+    }
 }
 

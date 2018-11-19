@@ -15,7 +15,7 @@ function FlameParticle(position)
 
         // Velocity
         self.velocity.x = self.getRandomArbitrary(-0.6, 0.6);
-        self.velocity.y = self.getRandomArbitrary(1, 3);
+        self.velocity.y = self.getRandomArbitrary(2, 4);
         self.velocity.z = self.getRandomArbitrary(-0.6, 0.6);
     
         // Acceleration
@@ -34,7 +34,7 @@ function FlameParticle(position)
         self.endColor.b = 0.0;
 
         // Life
-        self.lifeTime = self.getRandomArbitrary(500, 1500);
+        self.lifeTime = self.getRandomArbitrary(250, 500);
         self.lifeLeft = self.lifeTime;
     }
 

@@ -1,7 +1,7 @@
-function ConfettiSystem()
+function ConfettiSystem(position)
 {
 	let self = this;
-	ParticleSystem.call(self);
+	ParticleSystem.call(self, position);
 
 	self.maxParticles = 3000;
     self.spawnRateMS = 2500;

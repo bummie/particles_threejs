@@ -1,14 +1,14 @@
-function SnowParticle()
+function SnowParticle(position)
 {
     let self = this;
-    Particle.call(self);
+    Particle.call(self, position);
 
     self.reset = function()
     {
         // Position
-        self.position.x = self.getRandomArbitrary(-10, 10);
-        self.position.y = 20;
-        self.position.z = self.getRandomArbitrary(-10, 10) - 15;
+        self.position.x = position.x + self.getRandomArbitrary(-10, 10);
+        self.position.y = position.y + 20;
+        self.position.z = position.z + self.getRandomArbitrary(-10, 10);
 
         // Velocity
         self.velocity.x = 0;

@@ -1,7 +1,7 @@
-function SnowSystem()
+function SnowSystem(position)
 {
 	let self = this;
-	ParticleSystem.call(self);
+	ParticleSystem.call(self, position);
 
 	self.maxParticles = 20000;
     self.spawnRateMS = 50;

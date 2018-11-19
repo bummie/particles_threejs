@@ -1,7 +1,7 @@
-function SmokeSystem()
+function SmokeSystem(position)
 {
 	let self = this;
-	ParticleSystem.call(self);
+	ParticleSystem.call(self, position);
 
 	self.maxParticles = 1000;
     self.spawnRateMS = 100;

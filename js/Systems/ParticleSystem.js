@@ -1,6 +1,8 @@
-function ParticleSystem()
+function ParticleSystem(position)
 {
     let self = this;
+
+	self.position = position;
 
     self.maxParticles = 1000;
     self.availableParticles = [];
@@ -74,7 +76,7 @@ function ParticleSystem()
 	/**
 	 * Spawns a particle, either one existing being resued or creates a new one
 	 */
-	self.spawnParticle = function()
+	self.spawnParticle = function(position)
 	{
 		if(self.availableParticles.length <= 0) 
 		{
@@ -83,19 +85,19 @@ function ParticleSystem()
 			switch(self.particleType)
 			{
 				case "flame":
-					particle = new FlameParticle();
+					particle = new FlameParticle(self.position);
 				break;
 
 				case "smoke":
-					particle = new SmokeParticle();
+					particle = new SmokeParticle(self.position);
 				break;
 				
 				case "confetti":
-					particle = new ConfettiParticle();
+					particle = new ConfettiParticle(self.position);
 				break;
 
 				case "snow":
-					particle = new SnowParticle();
+					particle = new SnowParticle(self.position);
 				break;
 			}
 			

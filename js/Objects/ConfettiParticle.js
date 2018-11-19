@@ -1,14 +1,14 @@
-function ConfettiParticle()
+function ConfettiParticle(position)
 {
     let self = this;
-    Particle.call(self);
+    Particle.call(self, position);
 
     self.reset = function()
     {
         // Position
-        self.position.x = self.getRandomArbitrary(-0.1, 0.1);
-        self.position.y = -2;
-        self.position.z = self.getRandomArbitrary(-0.1, 0.1) + 10;
+        self.position.x = position.x + self.getRandomArbitrary(-0.1, 0.1);
+        self.position.y = position.y + -2;
+        self.position.z = position.z + self.getRandomArbitrary(-0.1, 0.1);
 
         // Velocity
         self.velocity.x = self.getRandomArbitrary(-1, 1);

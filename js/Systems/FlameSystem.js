@@ -1,7 +1,7 @@
-function FlameSystem()
+function FlameSystem(position)
 {
 	let self = this;
-	ParticleSystem.call(self);
+	ParticleSystem.call(self, position);
 
 	self.maxParticles = 2000;
     self.spawnRateMS = self.getRandomArbitrary(5, 100);

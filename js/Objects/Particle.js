@@ -1,4 +1,4 @@
-function Particle()
+function Particle(position)
 {
     let self = this;
 

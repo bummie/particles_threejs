@@ -1,18 +1,17 @@
-function FlameParticle()
+function FlameParticle(position)
 {
     let self = this;
-    Particle.call(self);
+    Particle.call(self, position);
 
     self.reset = function()
     {
-
         let radius = 0.15;
         let degrees = self.getRandomArbitrary(1, 360);
 
         // Position
-        self.position.x = radius * Math.cos(degrees);
-        self.position.y = -2;
-        self.position.z = radius * Math.sin(degrees);
+        self.position.x = position.x + (radius * Math.cos(degrees));
+        self.position.y = position.y;
+        self.position.z = position.x + (radius * Math.sin(degrees));
 
         // Velocity
         self.velocity.x = self.getRandomArbitrary(-0.6, 0.6);

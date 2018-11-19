@@ -14,6 +14,7 @@ function Renderer()
 
     self.lastTime = Date.now();
     
+    // Basic cube used a floor
     self.floorMaterial = new THREE.MeshBasicMaterial();
     self.floorMaterial.color = new THREE.Color( 0x2F2F2F );
     self.floor = new THREE.Mesh( new THREE.CubeGeometry( 200, 0.1, 200 ), self.floorMaterial );
@@ -97,11 +98,10 @@ function Renderer()
      */
     self.initParticleSystems = function()
     {
-        self.particleSystems.push(new FlameSystem());
-        self.particleSystems.push(new SmokeSystem());
-        self.particleSystems.push(new ConfettiSystem());
-        self.particleSystems.push(new SnowSystem());
-        
+        self.particleSystems.push(new FlameSystem({x: 0, y: -2, z: 0}));
+        self.particleSystems.push(new SmokeSystem({x: 0, y: -2, z: 0}));
+        self.particleSystems.push(new ConfettiSystem({x: 0, y: 5, z: 0}));
+        self.particleSystems.push(new SnowSystem({x: 0, y: 5, z: 0}));
 
         for(let i = 0; i < self.particleSystems.length; i++)
         {

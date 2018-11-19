@@ -1,14 +1,14 @@
-function SmokeParticle()
+function SmokeParticle(position)
 {
     let self = this;
-    Particle.call(self);
+    Particle.call(self, position);
 
     self.reset = function()
     {
         // Position
-        self.position.x = self.getRandomArbitrary(-0.5, 0.5);
-        self.position.y = self.getRandomArbitrary(0.8, 1.2);
-        self.position.z = self.getRandomArbitrary(-1, 1);
+        self.position.x = position.x + self.getRandomArbitrary(-0.5, 0.5);
+        self.position.y = position.y + self.getRandomArbitrary(0.8, 1.2);
+        self.position.z = position.z + self.getRandomArbitrary(-0.5, 0.5);
 
         // Velocity
         self.velocity.x = self.getRandomArbitrary(-0.1, 0.1);

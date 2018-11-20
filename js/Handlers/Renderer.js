@@ -9,7 +9,10 @@ function Renderer()
 
     self.reflectionCube = null; 
 
-    self.particleSystems = [];
+	self.particleSystems = [];
+	
+	self.windAngle = 32;
+	self.windStrength = 10;
     self.externalForce = { x: 0, y: 0, z: 0 }; // Wind
 
     self.lastTime = Date.now();

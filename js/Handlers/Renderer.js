@@ -10,10 +10,8 @@ function Renderer()
     self.reflectionCube = null; 
 
 	self.particleSystems = [];
-	
-	self.windAngle = 32;
-	self.windStrength = 10;
-    self.externalForce = { x: 0, y: 0, z: 0 }; // Wind
+
+	self.wind = new Wind();
 
     self.lastTime = Date.now();
 
@@ -45,10 +43,11 @@ function Renderer()
     {
 		let now = Date.now();
         let deltaTime = (now - self.lastTime);
-        
-        self.updateWind();
-        self.windArrowMesh.rotation.y = Math.atan2(self.externalForce.x, self.externalForce.z) - Math.PI/2;
-        self.updateParticleSystems(deltaTime, self.externalForce);
+		
+		self.wind.update(deltaTime);
+
+        self.windArrowMesh.rotation.y = Math.atan2(self.wind.externalForce.x, self.wind.externalForce.z) - Math.PI/2;
+        self.updateParticleSystems(deltaTime, self.wind.externalForce);
         
         self.flickerFireLight(deltaTime);
 		self.render();
@@ -147,7 +146,8 @@ function Renderer()
     }
     
     /**
-     * Adds some objects to make the scenere look more nices
+     * Adds some objects to make the scenere look more nice
+	 * Very ugly code below, be aware. 
      */
     self.addSceneryObjects = function()
     {
@@ -220,7 +220,6 @@ function Renderer()
             if(self.fireLight.intensity <= 1.8) { self.fireLight.intensity = 2; }
             if(self.fireLight.intensity > 2.2) { self.fireLight.intensity = 2; }
         }
-        
     }
 }
 

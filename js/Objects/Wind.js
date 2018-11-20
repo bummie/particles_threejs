@@ -2,9 +2,13 @@ function Wind()
 {
 	
 	let self = this;
+	
+	//  TOOOODOOOOOO
+	//
 	// Add windangleTarget and strength, linear interpolation towards it use deltatime as delay
 	// Convert angle to x and y coords, then multiply with strength.
 	// I partikkelsystemene som bruker random på ting, oppdatere disse randomverdiene hver frame. 
+	
 	self.windAngle = 90;
 	self.windAngleTarget = 10;
 	self.windStrength = 5;

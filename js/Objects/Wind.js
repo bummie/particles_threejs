@@ -1,22 +1,28 @@
 function Wind()
 {
-	
 	let self = this;
-	
-	//  TOOOODOOOOOO
-	//
-	// Add windangleTarget and strength, linear interpolation towards it use deltatime as delay
-	// Convert angle to x and y coords, then multiply with strength.
-	// I partikkelsystemene som bruker random på ting, oppdatere disse randomverdiene hver frame. 
-	
-	self.windAngle = 90;
-	self.windAngleTarget = 10;
-	self.windStrength = 5;
+		
 	self.externalForce = { x: 0, y: 0, z: 0 }; // Wind
 
-	self.updateDelay = 100;
-	self.updateDelayPassed = 0;
+	// Angle
+	self.windAngle = 90;
+	self.windAngleStart = self.windAngle;
+	self.windAngleTarget = 10;
 
+	// Strength
+	self.windStrength = 0;
+	self.windStrengthStart = self.windStrength;
+	self.windStrengthTarget = 10
+	self.maxWind = 2;
+	self.minWind = 0.5;
+
+	self.updateDelay = 25;
+	self.updateDelayPassed = 0;
+	self.lerpPercantage = 0;
+
+	/**
+	 * Updates the wind vector
+	 */
 	self.update = function(deltaTime)
 	{
 		if(self.updateDelayPassed <= self.updateDelay)
@@ -25,8 +31,29 @@ function Wind()
 			return; 
 		}
 
+		self.lerpPercantage += 0.01;
+
+		self.windAngle = self.lerp(self.windAngleStart, self.windAngleTarget, self.lerpPercantage);
+		self.windStrength = self.lerp(self.windStrengthStart, self.windStrengthTarget, self.lerpPercantage);
+
+		if(self.lerpPercantage >= 1) { self.newWindValues(); }
+
 		self.convertToVector();		
 		self.updateDelayPassed = 0;
+	}
+
+	/**
+	 * Fetches new random values for wind strength and angle
+	 */
+	self.newWindValues = function()
+	{
+		self.windAngleStart = self.windAngle;
+		self.windStrengthStart = self.windStrength;
+
+		self.windAngleTarget = self.getRandomArbitrary(0, 360);
+		self.windStrengthTarget = self.getRandomArbitrary(self.minWind, self.maxWind);
+
+		self.lerpPercantage = 0;
 	}
 
 	/**
@@ -34,8 +61,8 @@ function Wind()
 	 */
 	self.convertToVector = function()
 	{
-		self.externalForce.x = Math.cos(self.windAngle) * self.windStrength;
-		self.externalForce.y = Math.sin(self.windAngle) * self.windStrength;
+		self.externalForce.x = Math.cos(self.degToRad(self.windAngle)) * self.windStrength;
+		self.externalForce.z = Math.sin(self.degToRad(self.windAngle)) * self.windStrength;
 	}
 
 	/**
@@ -53,5 +80,13 @@ function Wind()
     {
 		return Math.random() * (max - min) + min;
 	}
-	
+
+	/**
+	 * Converts degress to radians
+	 */
+	self.degToRad = function(degrees)
+	{
+		return degrees * Math.PI / 180;
+	}
+
 }

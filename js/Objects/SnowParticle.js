@@ -17,7 +17,7 @@ function SnowParticle(position)
     
         // Acceleration
         self.acceleration.x = 0;
-        self.acceleration.y = self.getRandomArbitrary(-0.5, -0.1);
+        self.acceleration.y = self.getRandomArbitrary(-1.5, -0.5);
         self.acceleration.z = 0;
 
         // StartColor

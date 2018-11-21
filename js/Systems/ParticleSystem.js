@@ -20,6 +20,9 @@ function ParticleSystem(position)
 	self.points = null;  
 	self.sprite = null;
 
+	self.garbageCollectionDelay = 250;
+	self.garbageCollectionDelayTimePassed = 0;
+
     self.init = function()
     {
 		self.loadSprite();
@@ -28,7 +31,7 @@ function ParticleSystem(position)
 
     self.update = function(deltaTime, externalForce)
     {
-		self.garbageCollection();
+		self.garbageCollection(deltaTime);
 		self.spawnParticles();
 		self.updateGeometry(deltaTime, externalForce);
 	}
@@ -61,8 +64,10 @@ function ParticleSystem(position)
 	/**
 	 * Frees dead particles from in action list to avaiable
 	 */
-	self.garbageCollection = function()
+	self.garbageCollection = function(deltaTime)
 	{
+		if(self.garbageCollectionDelayTimePassed <= self.garbageCollectionDelay) { self.garbageCollectionDelayTimePassed += deltaTime; return;}
+
 		for(let i = self.particles.length - 1; i >= 0; i--)
 		{
 			if(self.particles[i].isDead())
@@ -71,6 +76,8 @@ function ParticleSystem(position)
 				self.particles.splice(i, 1);
 			}
 		}
+
+		self.garbageCollectionDelayTimePassed = 0;
 	}
 
 	/**
@@ -160,7 +167,7 @@ function ParticleSystem(position)
 		let verts = [];
 		for(let i = 0; i < self.particles.length; i++)
 		{
-			if(self.particles[i] == undefined) { continue; }
+			if(self.particles[i] == undefined || self.particles[i].isDead()) { continue; }
 
 			self.particles[i].update(deltaTime, externalForce);
 			verts.push(self.particles[i].position.x, self.particles[i].position.y, self.particles[i].position.z);

@@ -6,9 +6,9 @@ function SnowParticle(position)
     self.reset = function()
     {
         // Position
-        self.position.x = position.x + self.getRandomArbitrary(-20, 20);
+        self.position.x = position.x + self.getRandomArbitrary(-40, 40);
         self.position.y = position.y;
-        self.position.z = position.z + self.getRandomArbitrary(-20, 20);
+        self.position.z = position.z + self.getRandomArbitrary(-40, 40);
 
         // Velocity
         self.velocity.x = 0;

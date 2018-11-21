@@ -2,7 +2,7 @@ function Wind()
 {
 	let self = this;
 		
-	self.externalForce = { x: 0, y: 0, z: 0 }; // Wind
+	self.externalForce = { x: 0, y: 0, z: 0 };
 
 	// Angle
 	self.windAngle = 90;
@@ -13,7 +13,7 @@ function Wind()
 	self.windStrength = 0;
 	self.windStrengthStart = self.windStrength;
 	self.windStrengthTarget = 10
-	self.maxWind = 2;
+	self.maxWind = 2.3;
 	self.minWind = 0.5;
 
 	self.updateDelay = 25;
@@ -54,6 +54,7 @@ function Wind()
 		self.windStrengthTarget = self.getRandomArbitrary(self.minWind, self.maxWind);
 
 		self.lerpPercantage = 0;
+		self.updateDelay = self.getRandomArbitrary(5, 50);
 	}
 
 	/**

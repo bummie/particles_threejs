@@ -43,16 +43,14 @@ function Renderer()
     {
 		let now = Date.now();
         let deltaTime = (now - self.lastTime);
-		
-		self.wind.update(deltaTime);
-
-        self.windArrowMesh.rotation.y = Math.atan2(self.wind.externalForce.x, self.wind.externalForce.z) - Math.PI/2;
-        self.updateParticleSystems(deltaTime, self.wind.externalForce);
-        
-        self.flickerFireLight(deltaTime);
-		self.render();
         
         self.controls.update();
+		self.wind.update(deltaTime);
+        self.updateParticleSystems(deltaTime, self.wind.externalForce);
+        self.updateWindDirectionMesh();
+        self.flickerFireLight(deltaTime);
+        
+        self.render();
 		self.lastTime = now;
         requestAnimationFrame(self.update);
     }
@@ -202,6 +200,15 @@ function Renderer()
         // Ambient light
         var light = new THREE.AmbientLight( 0x404040 ); // soft white light
         self.scene.add( light );
+    }
+
+    /**
+     * Updates the wind direction with scale and angle based on wind
+     */
+    self.updateWindDirectionMesh = function()
+    {
+        self.windArrowMesh.rotation.y = Math.atan2(self.wind.externalForce.x, self.wind.externalForce.z) - Math.PI/2;
+        self.windArrowMesh.scale.y = self.wind.windStrength;
     }
 
     /**

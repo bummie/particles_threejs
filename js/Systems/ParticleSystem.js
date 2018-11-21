@@ -150,7 +150,7 @@ function ParticleSystem(position)
 		return new THREE.PointsMaterial(
 		{
 			map: self.sprite, 
-			blending: self.blending, 
+			blending: self.blending,
 		 	transparent: true,
             size: self.particleSize,
 			opacity: 1,

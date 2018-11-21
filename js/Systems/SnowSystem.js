@@ -3,9 +3,9 @@ function SnowSystem(position)
 	let self = this;
 	ParticleSystem.call(self, position);
 
-	self.maxParticles = 40000;
-    self.spawnRateMS = 90;
-	self.spawnAmount = self.getRandomArbitrary(100, 150);
+	self.maxParticles = 45000;
+    self.spawnRateMS = 100;
+	self.spawnAmount = self.getRandomArbitrary(150, 200);
 
 	self.particleType = "snow";
 

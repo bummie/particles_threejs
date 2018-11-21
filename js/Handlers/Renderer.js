@@ -27,7 +27,6 @@ function Renderer()
         self.controls.update();
 
         self.initSkybox();
-        self.scene.background = self.reflectionCube;
     
         self.addSceneryObjects();
 
@@ -91,6 +90,7 @@ function Renderer()
 
         self.reflectionCube = new THREE.CubeTextureLoader().load( urls );
         self.reflectionCube.format = THREE.RGBFormat;
+        self.scene.background = self.reflectionCube;
     }
 
     /**
